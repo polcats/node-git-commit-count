@@ -18,7 +18,13 @@ const commitCount = (altPath = cwd) => {
 
     return count;
   } catch (e) {
-    return count;
+    const error = e.toString().substring(0, 12);
+
+    if (error === 'Error: usage') {
+      return count;
+    }
+
+    return -1;
   }
 };
 
