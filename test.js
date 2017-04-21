@@ -15,8 +15,8 @@ test.before('create empty git dirs', () => {
     execa.shellSync('pushd ../gitEmpty & git init & git add . & git commit -m "Initial commit"');
     execa.shellSync('pushd ../gitEmpty2 & git init');
   } else {
-    execa.shellSync('cd ../gitEmpty ; git init ; git add . ; git commit -m "Initial commit"');
-    execa.shellSync('cd ../gitEmpty2 ; git init');
+    execa.shellSync('cd ../gitEmpty ; git init ;  git add . ; git commit -m "Initial commit" ;');
+    execa.shellSync('cd ../gitEmpty2 ; git init ;');
   }
 });
 
