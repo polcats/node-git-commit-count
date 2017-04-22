@@ -1,30 +1,20 @@
-import { homedir, platform } from 'os';
-import execa from 'execa';
 import fs from 'fs-extra';
+import { homedir } from 'os';
 import test from 'ava';
-
+import path from 'path';
 
 import commitCount from './index';
 
-test.before('create empty git dirs', () => {
-  fs.emptyDirSync('../gitEmpty');
-  fs.createFileSync('../gitEmpty/index.js');
-  fs.emptyDirSync('../gitEmpty2');
-  fs.createFileSync('../gitEmpty2/index.js');
-  if (platform() === 'win32') {
-    execa.shellSync('pushd ../gitEmpty & git init & git add . & git commit -m "Initial commit"');
-    execa.shellSync('pushd ../gitEmpty2 & git init');
-  } else {
-    execa.shellSync('cd ../gitEmpty ; git init ;  git add . ; git commit -m "Initial commit" ;');
-    execa.shellSync('cd ../gitEmpty2 ; git init ;');
-  }
+const fixtures = path.join(process.cwd(), 'test', 'fixtures');
+
+test.before('rename git folders', () => {
+  fs.renameSync(path.join(fixtures, 'git-commit-0', 'git'), path.join(fixtures, 'git-commit-0', '.git'));
+  fs.renameSync(path.join(fixtures, 'git-commit-1', 'git'), path.join(fixtures, 'git-commit-1', '.git'));
 });
 
-test.after('delete created git dirs', () => {
-  fs.emptyDirSync('../gitEmpty');
-  fs.rmdirSync('../gitEmpty');
-  fs.emptyDirSync('../gitEmpty2');
-  fs.rmdirSync('../gitEmpty2');
+test.after('rename .git folders', () => {
+  fs.renameSync(path.join(fixtures, 'git-commit-0', '.git'), path.join(fixtures, 'git-commit-0', 'git'));
+  fs.renameSync(path.join(fixtures, 'git-commit-1', '.git'), path.join(fixtures, 'git-commit-1', 'git'));
 });
 
 test('check if process.cwd() has commits', (t) => {
@@ -36,9 +26,9 @@ test('check if home dir has commits', (t) => {
 });
 
 test('check if another dir has commits', (t) => {
-  t.is(commitCount('../gitEmpty'), 1);
+  t.is(commitCount('./test/fixtures/git-commit-1'), 1);
 });
 
 test('check if another dir has commits', (t) => {
-  t.is(commitCount('../gitEmpty2'), 0);
+  t.is(commitCount('./test/fixtures/git-commit-0'), 0);
 });
