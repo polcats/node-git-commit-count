@@ -1,6 +1,6 @@
 {
   "name": "git-commit-count",
-  "version": "1.0.2",
+  "version": "1.0.1",
   "description": "A tool to count the numbers of commits of a git repository",
   "main": "build.js",
   "scripts": {
@@ -35,7 +35,9 @@
   },
   "homepage": "https://github.com/rudolfsonjunior/node-git-commit-count#readme",
   "dependencies": {
-    "execa": "^0.6.1"
+    "execa": "^0.6.1",
+    "is-git-repository": "^1.0.1",
+    "path-is-absolute": "^1.0.1"
   },
   "devDependencies": {
     "ava": "^0.18.2",
