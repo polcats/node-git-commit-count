@@ -1,5 +1,9 @@
-import { platform } from 'os';
 import execa from 'execa';
+import isGit from 'is-git-repository';
+import { platform } from 'os';
+import path from 'path';
+import pathIsAbsolute from 'path-is-absolute';
+
 
 const cwd = process.cwd();
 
@@ -7,24 +11,24 @@ const commitCount = (altPath = cwd) => {
   let count = 0;
   let obj = {};
 
+  const thisPath = pathIsAbsolute(altPath) ? altPath : path.join(cwd, altPath);
+
+  if (!isGit(thisPath)) {
+    return -1;
+  }
+
   try {
     if (platform() === 'win32') {
-      obj = execa.shellSync(`pushd ${altPath} & git rev-list --all --count`);
+      obj = execa.shellSync(`pushd ${thisPath} & git rev-list --all --count`);
     } else {
-      obj = execa.shellSync(`(cd ${altPath} ; git rev-list --all --count)`);
+      obj = execa.shellSync(`(cd ${thisPath} ; git rev-list --all --count)`);
     }
 
     count = parseInt(obj.stdout, 10);
 
     return count;
   } catch (e) {
-    const error = e.toString().substring(0, 12);
-
-    if (error === 'Error: usage') {
-      return count;
-    }
-
-    return -1;
+    return 0;
   }
 };
 
