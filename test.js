@@ -12,7 +12,7 @@ test.before('rename git folders', () => {
   fs.renameSync(path.join(fixtures, 'git-commit-1', 'git'), path.join(fixtures, 'git-commit-1', '.git'));
 });
 
-test.after('rename .git folders', () => {
+test.after.always('rename .git folders', () => {
   fs.renameSync(path.join(fixtures, 'git-commit-0', '.git'), path.join(fixtures, 'git-commit-0', 'git'));
   fs.renameSync(path.join(fixtures, 'git-commit-1', '.git'), path.join(fixtures, 'git-commit-1', 'git'));
 });
