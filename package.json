@@ -35,6 +35,7 @@
   },
   "homepage": "https://github.com/rudolfsonjunior/node-git-commit-count#readme",
   "dependencies": {
+    "babel-plugin-add-module-exports": "^0.2.1",
     "execa": "^0.6.1",
     "is-git-repository": "^1.0.1",
     "path-is-absolute": "^1.0.1"
