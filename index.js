@@ -19,9 +19,9 @@ const commitCount = (altPath = cwd) => {
 
   try {
     if (platform() === 'win32') {
-      obj = execa.shellSync(`pushd ${thisPath} & git rev-list --all --count`);
+      obj = execa.shellSync(`pushd ${thisPath} & git rev-list --count HEAD`);
     } else {
-      obj = execa.shellSync(`(cd ${thisPath} ; git rev-list --all --count)`);
+      obj = execa.shellSync(`(cd ${thisPath} ; git rev-list --count HEAD)`);
     }
 
     count = parseInt(obj.stdout, 10);
