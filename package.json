@@ -1,5 +1,5 @@
 {
-  "name": "git-commit-count",
+  "name": "@polcats/git-commit-count",
   "version": "1.1.3",
   "description": "A tool to count the numbers of commits of a git repository",
   "main": "build.js",
